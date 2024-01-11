@@ -7,3 +7,4 @@ rouge-score
 nltk
 PyYAML
 torch
+evaluate

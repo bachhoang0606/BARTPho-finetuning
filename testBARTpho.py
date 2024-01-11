@@ -1,5 +1,5 @@
 import os, json, getopt, sys, evaluate
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoConfig
 
 argList = sys.argv[1:]
 options = "m:i:o"
@@ -29,7 +29,7 @@ except getopt.error as err:
     print(str(err))
 
 tokenizer = AutoTokenizer.from_pretrained(modelPath)
-model = AutoModelForSeq2SeqLM.from_pretrained(modelPath)
+model = AutoModelForSeq2SeqLM.from_pretrained(modelPath, device_map="cuda")
 metric = evaluate.load('rouge')
 
 def process(inputFile, outputFile):
