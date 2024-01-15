@@ -9,3 +9,5 @@ PyYAML
 torch
 evaluate
 google.colab
+einops
+
