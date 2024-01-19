@@ -10,4 +10,12 @@ torch
 evaluate
 google.colab
 einops
-
+streamlit
+langchain
+langchain_openai
+langchain_community
+api
+env
+dotenv
+bson
+pymongo

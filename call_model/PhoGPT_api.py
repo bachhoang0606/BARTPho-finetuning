@@ -1,20 +1,23 @@
 import torch
 from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer  
+# python3 call_model/PhoGPT_api.py
+
+acess_token = "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"
+
+model_path = 'vinai/PhoGPT-7B5-Instruct'  
   
-model_path = "vinai/PhoGPT-7B5-Instruct"  
-  
-config = AutoConfig.from_pretrained(model_path, trust_remote_code=True)  
+config = AutoConfig.from_pretrained(model_path, token=acess_token)  
 # config.init_device = "cuda"
 # config.attn_config['attn_impl'] = 'triton' # Enable if "triton" installed!
   
 model = AutoModelForCausalLM.from_pretrained(  
-    model_path, config=config, torch_dtype=torch.bfloat16, trust_remote_code=True  
+    model_path, config=config, torch_dtype=torch.bfloat16, token=acess_token  
 )
 # If your GPU does not support bfloat16:
 # model = AutoModelForCausalLM.from_pretrained(model_path, config=config, torch_dtype=torch.float16, trust_remote_code=True)
 model.eval()  
   
-tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)  
+tokenizer = AutoTokenizer.from_pretrained(model_path, token=acess_token)  
   
 PROMPT_TEMPLATE = "### Câu hỏi:\n{instruction}\n\n### Trả lời:"  
 
@@ -46,7 +49,6 @@ outputs = model.generate(
     eos_token_id=tokenizer.eos_token_id,  
     pad_token_id=tokenizer.pad_token_id  
 )  
-
+  
 response = tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]  
 response = response.split("### Trả lời:")[1]
-print(response)
