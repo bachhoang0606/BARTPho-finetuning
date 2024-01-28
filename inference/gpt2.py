@@ -55,4 +55,3 @@ if __name__ == "__main__":
         raw_ouput = tokenizer.decode(sample_output.tolist())
         print(">> Generated text {}\n\n{}".format(i+1, handle_raw_datasets(raw_ouput, text).strip()))
         print('\n---')
-

@@ -16,6 +16,16 @@ DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 MODEL_NAME = "bkai-foundation-models/vietnamese-llama2-7b-120GB"
 PEFT_MODEL = "Bachhoang/vietnamese-llama2-7b-120GB-legal"
 
+"""
+##### Câu hỏi: Nội dung của Điều 14 3380/QĐ-UBND là gì? ### Trả lời: 
+Điều 14 3380/QĐ-UBND về việc phê duyệt điều lệ (sửa đổi, bổ sung) hội 
+khoa học kỹ thuật xây dựng khánh hòa Ban Chấp hành có thể biểu quyết 
+bằng hình thức giơ tay hoặc bỏ phiếu kín. Việc quy định hình thức biểu 
+quyết do Ban Chấp hành quyết định; d) Các nghị quyết, quyết định của Ban 
+Chấp hành được thông qua khi có trên 2/3 (hai phần ba) tổng số ủy viên Ban Chấp 
+hành dự họp biểu quyết tán thành. Trong trường hợp số ý kiến tán thành và không 
+tán thành ngang nhau thì quyết định thuộc về bên có ý kiến của Chủ tịch Hội. #####
+"""
 
 def create_model_and_tokenizer():
     bnb_config = BitsAndBytesConfig(
@@ -54,12 +64,14 @@ question = ""
 
 # load model
 model, tokenizer = create_model_and_tokenizer()
-  
-# infrence base model
-summary = inference(model, question)
-pprint(summary)
 
-# infrence fine tune model
-model_2 = PeftModel.from_pretrained(model, PEFT_MODEL)
-summary = inference(model_2, question)
-pprint(summary)
+# infrence fine tune model MODEL_NAME
+model = PeftModel.from_pretrained(model, PEFT_MODEL)
+
+def inference_llama2(text : str):
+    return inference(model, generate_prompt(text))
+
+if __name__ == "__main__":
+
+    summary = inference(model, generate_prompt("Nội dung của Điều 14 3380/QĐ-UBND là gì?"))
+    pprint(summary)
