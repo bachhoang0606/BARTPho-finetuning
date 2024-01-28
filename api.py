@@ -2,6 +2,9 @@ import os
 
 import requests
 from env import load_dotenv_if_exists
+from utils import handle_raw_datasets
+from inference.bartpho import inference_bartpho
+from inference.gpt2 import inference_gpt
 
 load_dotenv_if_exists()
 _hf_token = os.getenv("ACCESS_HUGGINGFACE_TOKEN")
@@ -22,15 +25,20 @@ __model_url = {
     "gpt2-vietnamese-legal": GPT2_API_URL,
 }
 
+__model_local = {
+    "BARTpho-vietnamese-legal": inference_bartpho,
+    "gpt2-vietnamese-legal": inference_gpt,
+}
+
 def get_answer(model_name, payload):
     assert model_name in __model_list, f"Model name must be one of {__model_list}"
 
     response = requests.post(__model_url[model_name], headers=headers, json=payload)
     data = response.json()
     if "error" not in data:
-        data = data[0]["generated_text"]
+        data = handle_raw_datasets(data[0]["generated_text"], payload)
     else:
-        data = data["error"]
+        data = __model_local[model_name](payload)
         
     return data, payload
 

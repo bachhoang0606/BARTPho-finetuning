@@ -8,6 +8,7 @@ from transformers import (
 
 from env import load_dotenv_if_exists
 import os
+from peft import PeftModel
 
 load_dotenv_if_exists()
 HF_TOKEN = os.getenv("ACCESS_HUGGINGFACE_TOKEN")
@@ -58,7 +59,6 @@ model, tokenizer = create_model_and_tokenizer()
 summary = inference(model, question)
 pprint(summary)
 
-from peft import PeftModel
 # infrence fine tune model
 model_2 = PeftModel.from_pretrained(model, PEFT_MODEL)
 summary = inference(model_2, question)
