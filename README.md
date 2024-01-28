@@ -23,3 +23,23 @@ conda activate BARTpho_finetune
 ./run-gpt.sh
 ```
 Note: if problem with `./run.sh`, run ```chmod +x run.sh```
+
+# Use user interface
+Do following steps:
+```
+pip install -r requirements.txt
+streamlit run Translate.py
+```
+
+
+# Use fine tuned models
+Do following steps:
+```
+pip install -r requirements.txt
+# bartpho
+cd inference bartpho.py
+# gpt
+cd inference gpt2-vietnamese-legal.py
+# llama2
+cd inference vietnamese-llama2-7b-120GB-legal.py
+```
