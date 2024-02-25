@@ -35,10 +35,12 @@ def get_answer(model_name, payload):
 
     response = requests.post(__model_url[model_name], headers=headers, json=payload)
     data = response.json()
-    if "error" not in data:
-        data = handle_raw_datasets(data[0]["generated_text"], payload)
-    else:
-        data = __model_local[model_name](payload)
+    # if "error" not in data:
+    #     data = handle_raw_datasets(data[0]["generated_text"], payload)
+    # else:
+    #     data = __model_local[model_name](payload)
+
+    data = __model_local[model_name](payload)
         
     return data, payload
 

@@ -6,6 +6,12 @@ from transformers import (
     BitsAndBytesConfig,
 )
 
+import os
+import sys
+
+here = os.path.dirname(__file__)
+sys.path.append(os.path.join(here, '..'))
+
 from env import load_dotenv_if_exists
 import os
 from peft import PeftModel
